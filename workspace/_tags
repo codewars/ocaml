@@ -1,0 +1,2 @@
+<test.ml> : package(oUnit), use_str
+<fixture.ml> or <test.native> : package(oUnit), package(batteries), package(core), thread
