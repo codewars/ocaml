@@ -34,7 +34,12 @@ let dispatch_test_case label test_case =
   
 let rec dispatch_labeled_test label test =
   match test with
-  | TestLabel (nested_label, nested_test) -> dispatch_labeled_test nested_label nested_test
+  | TestLabel (nested_label, nested_test) -> begin
+    cw_print_describe label;
+    let start = Unix.gettimeofday () in
+    dispatch_labeled_test nested_label nested_test;
+    cw_print_completed (Unix.gettimeofday () -. start)
+  end
   | TestCase _ -> dispatch_test_case label test
   | TestList tests -> begin
     cw_print_describe label;
@@ -42,7 +47,7 @@ let rec dispatch_labeled_test label test =
     run_tests tests;
     cw_print_completed (Unix.gettimeofday () -. start)
   end
-  
+
 and run_test = function
   | TestList tests -> "" >::: tests |> run_test
   | TestCase func ->  "" >::  func  |> run_test
