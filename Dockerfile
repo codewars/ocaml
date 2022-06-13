@@ -1,9 +1,9 @@
-FROM buildpack-deps:bionic
+FROM ubuntu:22.04
 
 RUN set -ex; \
     useradd --create-home codewarrior; \
-# TODO Remove symlink in the next version
-    ln -s /home/codewarrior /workspace;
+    mkdir -p /workspace; \
+    chown -R codewarrior:codewarrior /workspace;
 
 ENV OPAMROOT=/opt/opam \
     OPAMCOLOR=never
@@ -14,35 +14,29 @@ RUN set -ex; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
         software-properties-common \
-        m4 \
-        rsync \
-        aspcud \
-    ; \
-# Needed for opam 2.0
-    add-apt-repository -y ppa:avsm/ppa; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
+        libgmp-dev \
         opam \
-    ; \
-    rm -rf /var/lib/apt/lists/*;
+    ;
 
 USER codewarrior
 ENV USER=codewarrior \
     HOME=/home/codewarrior
 
-# --disable-sandboxing is needed to do this in a container witout `--privileged`
-RUN opam init -y --compiler=4.07.1 --disable-sandboxing
-
-ENV OPAM_SWITCH_PREFIX=/opt/opam/4.07.1 \
-    CAML_LD_LIBRARY_PATH=/opt/opam/4.07.1/lib/stublibs \
-    OCAML_TOPLEVEL_PATH=/opt/opam/4.07.1/lib/toplevel \
-    PATH=/opt/opam/4.07.1/bin:$PATH
+RUN opam init -y --shell-setup --compiler=4.14.0 --disable-sandboxing
 
 RUN opam install -y \
-        'ounit=2.0.8' \
-        'batteries=2.9.0' \
-        'core=v0.11.3' \
+        'ounit2=2.2.6' \
+        'ocamlfind=1.9.3' \
+        'ocamlbuild=0.14.1' \
+        'zarith=1.12' \
+        'batteries=3.5.1' \
+        'core=v0.15.0' \
     ;
+
+ENV OPAM_SWITCH_PREFIX=$OPAMROOT/4.14.0 \
+    CAML_LD_LIBRARY_PATH=$OPAMROOT/4.14.0/lib/stublibs:$OPAMROOT/4.14.0/lib/ocaml/stublibs:$OPAMROOT/4.14.0/lib/ocaml \
+    OCAML_TOPLEVEL_PATH=$OPAMROOT/4.14.0/lib/toplevel \
+    PATH=$OPAMROOT/4.14.0/bin:$PATH
 
 COPY workspace/test.ml /workspace/test.ml
 COPY workspace/_tags /workspace/_tags
