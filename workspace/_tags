@@ -1,2 +1,3 @@
-<test.ml> : package(ounit2), use_str
-<fixture.ml> or <test.native> : package(ounit2), package(batteries), package(core), thread
+<test.ml> or <tests.ml> or <test.native>: package(ounit2)
+not <test.ml>: package(batteries)
+# not <test.ml>: package(batteries), package(core)

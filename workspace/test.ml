@@ -56,4 +56,4 @@ and run_test = function
 and run_tests tests = List.iter run_test tests
   
 (* `solution` and `fixture` are concatenated to `fixture.ml` *)
-let () = run_tests Fixture.Tests.suite
+let () = run_tests Tests.suite
