@@ -1,0 +1,12 @@
+W=/workspace
+# Create container
+# BUILD="ocamlbuild -quiet -use-ocamlfind -pkgs 'ounit2,str,batteries' -I example test.native"
+# BUILD="ocamlbuild -use-ocamlfind -pkgs 'ounit2,str,batteries' -I example test.native"
+BUILD="ocamlbuild -use-ocamlfind test.native"
+C=$(docker container create --rm -w $W ocaml:ocamlbuild sh -c "$BUILD && exec ./test.native")
+
+# Copy files
+docker container cp ${1:-examples/basic}/. $C:$W
+
+# Start
+docker container start --attach $C
