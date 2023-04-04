@@ -15,5 +15,6 @@ ENV USER=opam
 
 RUN sudo mkdir -p /workspace; \
     sudo chown opam:opam /workspace
-COPY workspace/test.ml /workspace/test.ml
+COPY workspace/cwtest.ml /workspace/cwtest.ml
+COPY workspace/cwtest.mli /workspace/cwtest.mli
 COPY workspace/_tags /workspace/_tags

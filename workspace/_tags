@@ -1,3 +1,3 @@
-<test.ml> or <tests.ml> or <test.native>: package(ounit2)
-not <test.ml>: package(batteries)
+<cwtest.ml> or <cwtest.native> or <tests.ml>: package(ounit2)
+not <cwtest.ml>: package(batteries)
 # not <test.ml>: package(batteries), package(core)
