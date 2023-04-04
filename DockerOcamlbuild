@@ -1,0 +1,19 @@
+FROM ocaml/opam:ubuntu-22.04-ocaml-5.0
+
+RUN set -ex; \
+    eval $(opam env); \
+    opam install -y \
+    'ounit2=2.2.7' \
+    'ocamlbuild=0.14.2' \
+    'batteries=3.6.0' \
+#     'core=v0.15.1' \
+#     ''
+    ;
+
+USER opam
+ENV USER=opam
+
+RUN sudo mkdir -p /workspace; \
+    sudo chown opam:opam /workspace
+COPY workspace/test.ml /workspace/test.ml
+COPY example/ /workspace/
