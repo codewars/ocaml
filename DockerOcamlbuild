@@ -12,8 +12,10 @@ RUN set -ex; \
 
 # Additional packages
 RUN set -ex; \
+    opam depext 'zarith=1.12'; \
     opam install -y \
     'domainslib=0.5.0' \
+    'zarith=1.12' \
     ;
 
 USER opam
