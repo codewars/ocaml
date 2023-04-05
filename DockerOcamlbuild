@@ -1,5 +1,6 @@
 FROM ocaml/opam:ubuntu-22.04-ocaml-5.0
 
+# Base packages
 RUN set -ex; \
     eval $(opam env); \
     opam install -y \
@@ -7,7 +8,12 @@ RUN set -ex; \
     'ocamlbuild=0.14.2' \
     'batteries=3.6.0' \
     'base=v0.15.1' \
-#     ''
+    ;
+
+# Additional packages
+RUN set -ex; \
+    opam install -y \
+    'domainslib=0.5.0' \
     ;
 
 USER opam
