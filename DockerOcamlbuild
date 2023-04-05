@@ -6,7 +6,7 @@ RUN set -ex; \
     'ounit2=2.2.7' \
     'ocamlbuild=0.14.2' \
     'batteries=3.6.0' \
-#     'core=v0.15.1' \
+    'base=v0.15.1' \
 #     ''
     ;
 
