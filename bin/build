@@ -1,1 +1,1 @@
-docker build -t ocaml:latest .
+docker build -t ocaml:alpine .
