@@ -60,4 +60,4 @@ ENV USER=codewarrior \
     PATH=/opt/ocaml/5.0.0/bin:$PATH
 
 COPY --chown=codewarrior:codewarrior workspace/. /workspace/
-WORKDIR /workspace\
+WORKDIR /workspace
