@@ -1,2 +1,2 @@
-<cwtest.ml> or <cwtest.native> or <tests.ml>: package(ounit2)
-not <cwtest.ml>: thread, package(batteries), package(base), package(domainslib), package(zarith)
+not <solution.ml>: package(ounit2)
+not <cwtest.ml*>: thread, package(batteries), package(base), package(domainslib), package(zarith)
