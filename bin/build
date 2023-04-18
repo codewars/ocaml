@@ -1,1 +1,1 @@
-docker build -t ocaml:alpine .
+docker build -t ghcr.io/codewars/ocaml:latest .

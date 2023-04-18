@@ -1,0 +1,2 @@
+export IMAGE=ocaml:alpine
+exec "$(dirname "$0")/run" "$@"
