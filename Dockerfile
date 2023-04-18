@@ -17,7 +17,7 @@ USER codewarrior
 ENV USER=codewarrior
 
 RUN set -ex; \
-    opam init -y --disable-sandboxing --compiler=5.0.0;
+    opam init -y --shell-setup --disable-sandboxing --compiler=5.0.0;
 
 RUN set -ex; \
     opam install -y \

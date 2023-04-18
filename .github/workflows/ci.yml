@@ -33,7 +33,7 @@ jobs:
       - name: Run Domainslib Example
         run: bin/run examples/domainslib
 
-      - name: Run Zartih Example
+      - name: Run Zarith Example
         run: bin/run examples/zarith
 
       - name: Report Image Size
