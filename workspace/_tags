@@ -1,2 +1,2 @@
-<test.ml> : package(oUnit), use_str
-<fixture.ml> or <test.native> : package(oUnit), package(batteries), package(core), thread
+not <solution.ml>: package(ounit2)
+not <cwtest.ml*>: thread, package(batteries), package(base), package(domainslib), package(zarith)

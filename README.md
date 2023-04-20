@@ -5,16 +5,15 @@ Container image for OCaml used by CodeRunner.
 ## Usage
 
 ```bash
-W=/workspace/
+W=/workspace
 # Create container
-C=$(docker container create --rm -w $W ghcr.io/codewars/ocaml:latest \
-    sh -c 'ocamlbuild -quiet -use-ocamlfind test.native && exec ./test.native')
+BUILD="ocamlbuild -quiet -use-ocamlfind cwtest.native"
+C=$(docker container create --rm -w $W ghcr.io/codewars/ocaml:latest sh -c "$BUILD && exec ./cwtest.native")
 
-# Write solution and tests in workspace/fixture.ml
-# Then copy it inside a container
-docker container cp workspace/fixture.ml $C:$W/fixture.ml
+# Copy solution and test files
+docker container cp ${1:-examples/basic}/. $C:$W
 
-# Run tests
+# Start
 docker container start --attach $C
 ```
 

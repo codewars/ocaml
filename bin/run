@@ -1,0 +1,16 @@
+set -eu
+
+if [ -z "${IMAGE:+x}" ]; then
+  IMAGE=ghcr.io/codewars/ocaml:latest
+fi
+
+W=/workspace
+# Create container
+BUILD="ocamlbuild -quiet -use-ocamlfind cwtest.native"
+C=$(docker container create --rm -w $W $IMAGE sh -c "$BUILD && exec ./cwtest.native")
+
+# Copy files
+docker container cp ${1:-examples/basic}/. $C:$W
+
+# Start
+docker container start --attach $C

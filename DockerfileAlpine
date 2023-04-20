@@ -1,15 +1,16 @@
-FROM ubuntu:22.04 AS Builder
+FROM alpine:3.17 AS builder
 
 ENV OPAMROOT=/opt/ocaml
 
 RUN set -ex; \
     mkdir -p $OPAMROOT; \
-    useradd --create-home codewarrior; \
-    chown codewarrior:codewarrior $OPAMROOT; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
-        software-properties-common \
-        libgmp-dev \
+    adduser -D codewarrior; \
+    chown -R codewarrior:codewarrior /opt/ocaml; \
+    apk update; \
+    apk add --virtual .build-deps \
+        build-base \
+        ocaml-compiler-libs \
+        gmp-dev \
         opam \
     ;
 
@@ -30,16 +31,14 @@ RUN set -ex; \
         'zarith=1.12' \
     ;
 
-FROM ubuntu:22.04
+FROM alpine:3.17
 
 RUN set -ex; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
+    apk add --no-cache \
         gcc \
-        libc6-dev \
-        libgmp-dev \
-    ; \
-    rm -rf /var/lib/apt/lists/*;
+        gmp-dev \
+        musl-dev \
+    ;
 
 COPY --from=builder \
     /opt/ocaml/5.0.0/bin/ocamlc.opt \
@@ -52,8 +51,8 @@ COPY --from=builder \
     /opt/ocaml/5.0.0/lib/ /opt/ocaml/5.0.0/lib/
 
 RUN set -ex; \
-    useradd --create-home codewarrior; \
-    mkdir -p /workspace; \
+    adduser -D codewarrior; \
+    mkdir /workspace; \
     chown -R codewarrior:codewarrior /workspace;
 
 USER codewarrior
